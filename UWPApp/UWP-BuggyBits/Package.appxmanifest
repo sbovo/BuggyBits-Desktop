@@ -9,7 +9,7 @@
   <Identity
     Name="28074SebastienBovo.BuggyBits-UWP"
     Publisher="CN=EAF8D2EE-353A-4D63-92A6-19C6D059BA29"
-    Version="1.0.1.0" />
+    Version="1.0.5.0" />
 
   <mp:PhoneIdentity PhoneProductId="8a497e24-054d-4ca3-8c75-06c03ac71710" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

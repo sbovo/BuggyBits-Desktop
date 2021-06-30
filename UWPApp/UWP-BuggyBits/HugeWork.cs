@@ -22,11 +22,20 @@ namespace UWP_BuggyBits
 
         public static async Task<string> DoIt(DateTime startingPoint)
         {
+            // Instantiate some classes in order to see if we can dump them during live
+            // or dumps debugging
+            BuggyBits.Models.Link link = new BuggyBits.Models.Link(
+                $"BuggyBits link created at {startingPoint.ToLongTimeString()}",
+                $"https://SomeUrl{startingPoint.Millisecond.ToString()}");
+
+            BuggyBits.Models.DataLayer dl = new BuggyBits.Models.DataLayer();
+            var featuredProducts = dl.GetFeaturedProducts();
+
             lock (syncobj)
             {
                 // ⚠ This is a demo code to show performance issues
                 // ⚠ Never use this code in production as it freezes the UI
-                System.Threading.Tasks.Task.Delay(5000).Wait();
+                System.Threading.Tasks.Task.Delay(10000).Wait();
                 var endingPoint = DateTime.Now;
                 return $"It took: {endingPoint.Subtract(startingPoint).TotalSeconds}s";
             }
