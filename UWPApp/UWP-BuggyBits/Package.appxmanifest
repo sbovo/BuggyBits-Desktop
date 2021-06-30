@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="b90bf5c4-0b00-481d-9dc2-1d5df9a510d4"
-    Publisher="CN=sbovo"
-    Version="1.0.0.0" />
+    Name="28074SebastienBovo.BuggyBits-UWP"
+    Publisher="CN=EAF8D2EE-353A-4D63-92A6-19C6D059BA29"
+    Version="1.0.1.0" />
 
-  <mp:PhoneIdentity PhoneProductId="b90bf5c4-0b00-481d-9dc2-1d5df9a510d4" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="8a497e24-054d-4ca3-8c75-06c03ac71710" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>UWP-BuggyBits</DisplayName>
-    <PublisherDisplayName>sbovo</PublisherDisplayName>
+    <DisplayName>BuggyBits-UWP</DisplayName>
+    <PublisherDisplayName>Sebastien Bovo</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -30,9 +30,9 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="UWP_BuggyBits.App">
+      EntryPoint="UWP-BuggyBits">
       <uap:VisualElements
-        DisplayName="UWP-BuggyBits"
+        DisplayName="BuggyBits-UWP"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
         Description="UWP-BuggyBits"

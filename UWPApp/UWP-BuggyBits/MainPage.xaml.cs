@@ -41,26 +41,26 @@ namespace UWP_BuggyBits
             f.ShowAt(btnHugeWork);
         }
 
-        private void btnTakeADump_Click(object sender, RoutedEventArgs e)
-        {
+        //private void btnTakeADump_Click(object sender, RoutedEventArgs e)
+        //{
 
-            Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-            var processId = ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;
-            string dumpFileName = string.Concat(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString(), DateTime.Now.Day.ToString(), "-",
-                DateTime.Now.Hour.ToString(), "h", DateTime.Now.Minute.ToString(), "min", DateTime.Now.Second.ToString(), "s", DateTime.Now.Millisecond.ToString(), "ms");
-            string pathToDumps = localFolder.Path;
+        //    Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+        //    var processId = ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;
+        //    string dumpFileName = string.Concat(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString(), DateTime.Now.Day.ToString(), "-",
+        //        DateTime.Now.Hour.ToString(), "h", DateTime.Now.Minute.ToString(), "min", DateTime.Now.Second.ToString(), "s", DateTime.Now.Millisecond.ToString(), "ms");
+        //    string pathToDumps = localFolder.Path;
 
 
-            Process p = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = startInfo.FileName = @".\Tools\procdump.exe";
-            startInfo.Arguments = $@"-ma {processId} {pathToDumps}\BuggyBitsDump{dumpFileName}.dmp -accepteula";
-            startInfo.CreateNoWindow = true;
-            p.StartInfo = startInfo;
-            p.Start();
+        //    Process p = new Process();
+        //    ProcessStartInfo startInfo = new ProcessStartInfo();
+        //    startInfo.FileName = startInfo.FileName = @".\Tools\procdump.exe";
+        //    startInfo.Arguments = $@"-ma {processId} {pathToDumps}\BuggyBitsDump{dumpFileName}.dmp -accepteula";
+        //    startInfo.CreateNoWindow = true;
+        //    p.StartInfo = startInfo;
+        //    p.Start();
 
-            textBoxPathToDumps.Text = $"Dump created in {pathToDumps}";
-        }
+        //    textBoxPathToDumps.Text = $"Dump created in {pathToDumps}";
+        //}
 
     }
 }
