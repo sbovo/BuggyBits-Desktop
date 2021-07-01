@@ -15,6 +15,11 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+// Using AppCenter for analytics and crash reports
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+
 namespace UWP_BuggyBits
 {
     /// <summary>
@@ -22,6 +27,9 @@ namespace UWP_BuggyBits
     /// </summary>
     sealed partial class App : Application
     {
+
+
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -30,6 +38,10 @@ namespace UWP_BuggyBits
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            // Initialize AppCenter
+            AppCenter.Start(Utils.AppCenterAppSecret,
+                   typeof(Analytics), typeof(Crashes));
         }
 
         /// <summary>
@@ -39,6 +51,8 @@ namespace UWP_BuggyBits
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            Analytics.TrackEvent("Application start", Utils.AppCenterDictionarySettings);
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,

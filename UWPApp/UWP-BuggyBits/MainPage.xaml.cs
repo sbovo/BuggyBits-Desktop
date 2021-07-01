@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Windows.System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Microsoft.AppCenter.Analytics;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -41,6 +42,15 @@ namespace UWP_BuggyBits
             f.ShowAt(btnHugeWork);
         }
 
+
+
+        private void btnRaiseException_Click(object sender, RoutedEventArgs e)
+        {
+            Analytics.TrackEvent("Raise exception", Utils.AppCenterDictionarySettings);
+            var ex = new System.IO.FileNotFoundException("Oulala we cannot find the file NotExist.jpg");
+            throw ex;
+        }
+
         //private void btnTakeADump_Click(object sender, RoutedEventArgs e)
         //{
 
@@ -63,4 +73,6 @@ namespace UWP_BuggyBits
         //}
 
     }
-}
+
+   
+    }

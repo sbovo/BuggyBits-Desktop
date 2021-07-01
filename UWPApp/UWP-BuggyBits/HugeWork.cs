@@ -12,6 +12,8 @@
 // distribution of the Sample Code
 using System;
 using System.Threading.Tasks;
+using Microsoft.AppCenter.Analytics;
+
 
 namespace UWP_BuggyBits
 {
@@ -22,6 +24,7 @@ namespace UWP_BuggyBits
 
         public static async Task<string> DoIt(DateTime startingPoint)
         {
+            Analytics.TrackEvent("Huge work", Utils.AppCenterDictionarySettings);
             // Instantiate some classes in order to see if we can dump them during live
             // or dumps debugging
             BuggyBits.Models.Link link = new BuggyBits.Models.Link(
@@ -35,7 +38,7 @@ namespace UWP_BuggyBits
             {
                 // ⚠ This is a demo code to show performance issues
                 // ⚠ Never use this code in production as it freezes the UI
-                System.Threading.Tasks.Task.Delay(10000).Wait();
+                System.Threading.Tasks.Task.Delay(5000).Wait();
                 var endingPoint = DateTime.Now;
                 return $"It took: {endingPoint.Subtract(startingPoint).TotalSeconds}s";
             }
