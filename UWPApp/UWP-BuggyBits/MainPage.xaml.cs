@@ -44,11 +44,10 @@ namespace UWP_BuggyBits
 
 
 
-        private void btnRaiseException_Click(object sender, RoutedEventArgs e)
+        private async void btnRaiseException_Click(object sender, RoutedEventArgs e)
         {
-            Analytics.TrackEvent("Raise exception", Utils.AppCenterDictionarySettings);
-            var ex = new System.IO.FileNotFoundException("Oulala we cannot find the file NotExist.jpg");
-            throw ex;
+            var buggy = new BuggyClass();
+            await buggy.AccessSomeFileAsync();
         }
 
         //private void btnTakeADump_Click(object sender, RoutedEventArgs e)
