@@ -30,6 +30,11 @@ namespace UWP_BuggyBits
         public MainPage()
         {
             this.InitializeComponent();
+
+            var processId = ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;
+            textboxProcDumpCommandCrash.Text = $"Procdump.exe {processId.ToString()} -ma -e 1";
+            textboxProcDumpCommandHang.Text = $"Procdump.exe {processId.ToString()} -ma";
+
         }
 
         private async void btnHugeWork_Click(object sender, RoutedEventArgs e)
