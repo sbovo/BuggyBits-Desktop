@@ -17,6 +17,9 @@ using Windows.System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Microsoft.AppCenter.Analytics;
+using BuggyBits.Models;
+using System.Collections.Generic;
+using Windows.ApplicationModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -27,13 +30,25 @@ namespace UWP_BuggyBits
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private List<string> productsTable = new List<string>();
+
         public MainPage()
         {
             this.InitializeComponent();
 
+            Package package = Package.Current;
+            PackageId packageId = package.Id;
+            PackageVersion version = packageId.Version;
+
+            string appVersion = string.Format("{0}.{1}.{2}.{3}",
+                version.Major, version.Minor, version.Build, version.Revision);
+            tbTitle.Text = $"Version {appVersion} - APPLICATION FOR DEBUGGING PURPOSE";
+
             var processId = ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;
             textboxProcDumpCommandCrash.Text = $"Procdump.exe {processId.ToString()} -ma -e 1";
             textboxProcDumpCommandHang.Text = $"Procdump.exe {processId.ToString()} -ma";
+
+
 
         }
 
@@ -53,6 +68,18 @@ namespace UWP_BuggyBits
         {
             var buggy = new BuggyClass();
             await buggy.AccessSomeFileAsync();
+        }
+
+        private void btnMemoryLeakProducts_Click(object sender, RoutedEventArgs e)
+        {
+            var dataLayer = new DataLayer();
+            var products = dataLayer.GetAllProducts();
+            string oneProductTable = "<tr><th>Product Name</th><th>Description</th><th>Price</th></tr>";
+            foreach (var product in products)
+            {
+                oneProductTable += $"<tr><td>{product.ProductName}</td><td>{product.Description}</td><td>{product.Price}</td>";
+            }
+            productsTable.Add(oneProductTable);
         }
 
         //private void btnTakeADump_Click(object sender, RoutedEventArgs e)
@@ -78,5 +105,5 @@ namespace UWP_BuggyBits
 
     }
 
-   
-    }
+
+}
