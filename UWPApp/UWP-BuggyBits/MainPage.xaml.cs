@@ -20,6 +20,7 @@ using Microsoft.AppCenter.Analytics;
 using BuggyBits.Models;
 using System.Collections.Generic;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.DataTransfer;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -30,7 +31,8 @@ namespace UWP_BuggyBits
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private List<string> productsTable = new List<string>();
+        private List<string> productsTableString = new List<string>();
+        private List<Product> productsTable = new List<Product>();
 
         public MainPage()
         {
@@ -77,10 +79,33 @@ namespace UWP_BuggyBits
             string oneProductTable = "<tr><th>Product Name</th><th>Description</th><th>Price</th></tr>";
             foreach (var product in products)
             {
+                productsTable.Add(product);
                 oneProductTable += $"<tr><td>{product.ProductName}</td><td>{product.Description}</td><td>{product.Price}</td>";
             }
-            productsTable.Add(oneProductTable);
+            productsTableString.Add(oneProductTable);
         }
+
+		private void btnCopyToClipboardCrashCommand_Click(object sender, RoutedEventArgs e)
+		{
+			CopyTextToClipboard(textboxProcDumpCommandCrash.Text);
+		}
+
+
+
+		private void btnCopyToClipboardHangCommand_Click(object sender, RoutedEventArgs e)
+		{
+            CopyTextToClipboard(textboxProcDumpCommandHang.Text);
+        }
+
+
+        private void CopyTextToClipboard(string textToCopy)
+        {
+            DataPackage dataPackage = new DataPackage();
+            dataPackage.RequestedOperation = DataPackageOperation.Copy;
+            dataPackage.SetText(textToCopy);
+            Clipboard.SetContent(dataPackage);
+        }
+
 
         //private void btnTakeADump_Click(object sender, RoutedEventArgs e)
         //{
