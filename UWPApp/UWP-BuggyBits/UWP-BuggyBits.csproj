@@ -171,9 +171,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BuggyBits-UWP-ClassLibrary\BuggyBits-UWP-ClassLibrary.csproj">
-      <Project>{2706b40e-5a69-4ba7-b3f5-96b7035fba7e}</Project>
-      <Name>BuggyBits-UWP-ClassLibrary</Name>
+    <ProjectReference Include="..\..\ClassLibraries\BuggyBits-Models\BuggyBits-Models.csproj">
+      <Project>{41878408-94ba-474a-b47b-342784060c46}</Project>
+      <Name>BuggyBits-Models</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
