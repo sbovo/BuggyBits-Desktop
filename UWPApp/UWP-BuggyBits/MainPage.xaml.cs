@@ -21,6 +21,8 @@ using BuggyBits.Models;
 using System.Collections.Generic;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
+using System.Net.Http;
+using System.Net;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -105,6 +107,142 @@ namespace UWP_BuggyBits
             dataPackage.SetText(textToCopy);
             Clipboard.SetContent(dataPackage);
         }
+
+        private async void btnHttpRequest_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                textboxLog.Text = $"Building a HttpClient request to '{textboxUriForHttpRequest.Text}'\n";
+                string result = await UWPPing(textboxUriForHttpRequest.Text);
+                textboxLog.Text += $" - Response = '{result.Substring(0, 200)}'\n";
+                textboxLog.Text += $"\r\n\r\n\r\n============================================================\r\nBuilding a HttpClient request to '{textboxUriForHttpRequest.Text}'\n";
+                bool b = await Ping(textboxUriForHttpRequest.Text);
+            }
+            catch (Exception ex)
+            {
+                textboxLog.Text += $" - Exception = '{ex.Message}'\r\n";
+            }
+           
+        }
+
+
+
+
+
+
+        private async Task<string> UWPPing(string url)
+        {
+            try
+            {
+                Windows.Web.Http.HttpClient httpClient = new Windows.Web.Http.HttpClient();
+
+                //Add a user-agent header to the GET request. 
+                var headers = httpClient.DefaultRequestHeaders;
+
+                //The safe way to add a header value is to use the TryParseAdd method and verify the return value is true,
+                //especially if the header value is coming from user input.
+                string header = "ie";
+                if (!headers.UserAgent.TryParseAdd(header))
+                {
+                    throw new Exception("Invalid header value: " + header);
+                }
+
+                header = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)";
+                if (!headers.UserAgent.TryParseAdd(header))
+                {
+                    throw new Exception("Invalid header value: " + header);
+                }
+
+                Uri requestUri = new Uri(url);
+
+
+                textboxLog.Text += $" - User agent = '{headers.UserAgent}'\n";
+                textboxLog.Text += $" - Sending the request using the HttpClient.GetAsync  method...\n";
+                //Send the GET request asynchronously and retrieve the response as a string.
+                Windows.Web.Http.HttpResponseMessage httpResponse = await httpClient.GetAsync(requestUri);
+                httpResponse.EnsureSuccessStatusCode();
+                textboxLog.Text += $" - Statut code got = '{httpResponse.StatusCode}'\r\n";
+                return await httpResponse.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+
+                textboxLog.Text += $" - Exception = '{ex.Message}'\r\n";
+                return "";
+            }
+      
+        }
+
+        public async Task<bool> Ping(string pingUrl)
+        {
+            try
+            {
+                HttpRequestMessage pingReq = new HttpRequestMessage(HttpMethod.Get, pingUrl);
+                (HttpStatusCode pingHttpCode, string pingRespContent) = await SendRequest<string>(pingReq);
+                if (pingHttpCode != HttpStatusCode.OK)
+                    return false;
+
+                return !string.IsNullOrEmpty(pingRespContent);
+            }
+            catch (Exception ex)
+            {
+
+                textboxLog.Text += $" - Exception = '{ex.Message}'\r\n";
+                return false;
+            }
+           
+        }
+
+        public async Task<(HttpStatusCode, T)> SendRequest<T>(HttpRequestMessage req) where T : class
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                try
+                {
+                    textboxLog.Text += $" - Sending the request using the HttpClient.SendAsync method...\n";
+                    using (HttpResponseMessage response = await httpClient.SendAsync(req))
+                    {
+                        string stringRes = await response.Content.ReadAsStringAsync();
+                        HttpStatusCode respCode = response.StatusCode;
+                        T responseData;
+                        //try
+                        //{
+                        //    responseData = JsonConvert.DeserializeObject<T>(stringRes);
+                        //}
+                        //catch (Exception e)
+                        //{
+                        //    // if the expected result is a string, just return it!
+                        //    if (typeof(T) == typeof(string))
+                        //        return (response.StatusCode, stringRes as T);
+                        //    s_log.ErrorFormat("Cannot parse response for request {0}: {1} due to {2}", req, stringRes, e.Message);
+                        //    throw new LTHttpApiException("Cannot parse response for request " + req + ":" + stringRes, HttpStatusCode.PartialContent);
+                        //}
+
+                        if (typeof(T) == typeof(string))
+                        {
+                            textboxLog.Text += $" - Statut code got = '{respCode}'\r\n";
+                            textboxLog.Text += $" - Response = '{stringRes.Substring(0, 200)}'\n";
+                            return (response.StatusCode, stringRes as T);
+                        }
+                                
+                    }
+                }
+                catch (HttpRequestException e)
+                {
+                    textboxLog.Text += $" - Exception = '{e.Message}'\r\n";
+                }
+            }
+
+            //if (lastExc != null)
+            //{
+            //    s_log.ErrorFormat("Cannot send request to {0} due to {1}", req.RequestUri, lastExc.Message);
+            //    throw lastExc;
+            //}
+
+            //throw new LTHttpApiException("Cannot figure out the response from the server", HttpStatusCode.InternalServerError);
+            return (HttpStatusCode.OK, "-" as T);
+        }
+
 
 
         //private void btnTakeADump_Click(object sender, RoutedEventArgs e)

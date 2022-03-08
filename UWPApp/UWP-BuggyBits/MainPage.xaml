@@ -30,8 +30,8 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="370"></ColumnDefinition>
-                <ColumnDefinition MinWidth="100"></ColumnDefinition>
-				<ColumnDefinition MinWidth="30"></ColumnDefinition>
+                <ColumnDefinition MinWidth="100" Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="40"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 
             <TextBlock  Grid.Column="0" Grid.Row="0">Procdump command to take a dump when a crash occurs</TextBlock>
@@ -47,11 +47,28 @@
 			</Button>
 		</Grid>
             
-        <Button x:Name="btnHugeWork" Content="Do some huge work...the worst way possible" Click="btnHugeWork_Click"></Button>
-        <Button x:Name="btnRaiseException" Content="Raise an exception" Click="btnRaiseException_Click"></Button>
+        <Button x:Name="btnHugeWork" Width="350" Content="Do some huge work...the worst way possible" Click="btnHugeWork_Click"></Button>
+        <Button x:Name="btnRaiseException" Width="350" Content="Raise an exception" Click="btnRaiseException_Click"></Button>
 
-        <Button x:Name="btnMemoryLeakProducts" Content="MemoryLeak" Click="btnMemoryLeakProducts_Click"></Button>
+        <Button x:Name="btnMemoryLeakProducts" Width="350" Content="MemoryLeak" Click="btnMemoryLeakProducts_Click"></Button>
 
+        <Border Height="50"></Border>
+        <Grid ColumnSpacing="3" RowSpacing="3">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="370"></ColumnDefinition>
+                <ColumnDefinition MinWidth="300" Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+
+            <Button     Grid.Row="0" Grid.Column="0" x:Name="btnHttpRequest" Width="350" Content="Do a simple HTTP request to" Click="btnHttpRequest_Click"></Button>
+            <TextBox    Grid.Column="1" Grid.Row="0" x:Name="textboxUriForHttpRequest" Text="https://www.microsoft.com"></TextBox>
+
+        </Grid>
+
+        <TextBox x:Name="textboxLog" AcceptsReturn="True"></TextBox>
         <!--<StackPanel Orientation="Horizontal">
             <Button x:Name="btnTakeADump" Content="Take a dump with procdump.exe (which is packaged with the app)" Click="btnTakeADump_Click"></Button>
             <TextBox x:Name="textBoxPathToDumps"></TextBox>
